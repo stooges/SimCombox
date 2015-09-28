@@ -281,13 +281,17 @@
 			var ttop=this.$inputbox.offset().top+this.$inputbox.outerHeight();
 			var min_width=this.$inputbox.outerWidth();
 			var max_width=window.width-lleft-15;
-			var bborder=this.$inputbox.css('border');
 			var list_id=this.listId;
-		
-			if(bborder==null||bborder==""){
-				bborder='solid 1px #ADADAD';
+			
+			var bcolor = this.$inputbox.css("border-color");
+			var	bborder = this.$inputbox.css("border");
+			var sim_border='solid 1px ';
+			if(bcolor)
+				sim_border+=bcolor;
+			else if(bborder){
+				sim_border = bborder.replace(/\dpx/,"1px");
 			}else{
-				bborder=bborder.replace("2px","1px");//浏览器完全默认状态下获取得到的边框宽度为2
+				sim_border+="#ADADAD";
 			}
 			
 			$("body").append("<div id='"+list_id.replace('#','')
@@ -295,7 +299,7 @@
 							+min_width+"px;max-width:"+max_width+"px;max-height:"
 							+this.settings['maxHeight']+"px;left:"+lleft+"px;top:"+ttop
 							+"px;z-index:2147483646; background:white;border:"
-							+bborder+";'>"+content+"</div>");
+							+sim_border+";'>"+content+"</div>");
 			$(list_id+" td").attr('style','padding-left:10px;padding-right:10px;');
 		},
 		
@@ -329,15 +333,17 @@
 					if(typeof data[i]=="object"){//如果为对象
 						var text="";
 						var tds="";
+						var tds_str="";
 						for(var k in data[i]){
 							if(this.settings["hide"].indexOf(k)<0){
 								text+=data[i][k]+",";
 								tds+="<td>"+data[i][k]+"</td>";
+								tds_str+=data[i][k];
 							}
 						}
 						text=text.substr(0,text.length-1);
 						valueSet.push(text);
-						if(text.indexOf(filter)>=0)	
+						if(tds_str.indexOf(filter)>=0)	
 							content+="<tr text='"+text+"' dataId='"+i+"'>"+tds+"</tr>";
 					}else{
 						var text=data[i];
@@ -349,13 +355,15 @@
 					if(typeof data[i]=="object"){//如果为对象
 						var text=data[i][this.settings['value']];
 						var tds="";
+						var tds_str="";
 						for(var k in data[i]){
 							if(this.settings["hide"].indexOf(k)<0){
 								tds+="<td>"+data[i][k]+"</td>";
+								tds_str+= data[i][k];
 							}
 						}
 						valueSet.push(text);
-						if(text.indexOf(filter)>=0)	
+						if(tds_str.indexOf(filter)>=0)	
 							content+="<tr text='"+text+"' dataId='"+i+"'>"+tds+"</tr>";
 					}else{
 						var text=data[i];
