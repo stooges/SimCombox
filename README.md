@@ -28,11 +28,11 @@ Simple and perfect HTML combox.
  							{
  								allowNew:true,				//输入框中是否允许输入不包含在列表中的数据
  								maxHeight:180,				//输入框显示的最大高度，单位为px
- 								text:'key1',				//如果为多列数据，则指出输入框中需要的列，
+ 								value:'key1',				//如果为多列数据，则指出输入框中需要的列，
 																//	如果为空则将全部列值显示（逗号分隔,如"value1,value2,value3"）
  								hide:['key2','key3']		//如果为多列数据，则指出需要被隐藏的列，默认为空数组
- 								onclick: function(e,data){	//列表选项被选中后的回调函数 onClickFun(e,data)，默认为空函数
-										//参数 e : 当前被点击的行对象，为表格的一行 <tr text='value1' dataId='data_id'> ...  </tr>
+ 								onSelect: function(e,data){	//列表选项被选中后的回调函数 onSelectFun(e,data)，默认为空函数
+										//参数 e : 当前被点击的行对象，为表格的一行 <tr value='value1' dataId='data_id'> ...  </tr>
 										//参数 data : 被点击行所对应的输入参数dataArray中的数据，
  									//		如 'item1' 或 ['item11','item12','item13'] 或 
 										//		{key1:'value11',key2:'value12',key3:'value13'}
@@ -50,8 +50,8 @@ Simple and perfect HTML combox.
  						['item31','item32','item33']
  					],
  					{
-							text: '0',hide:['0'], 
-							onclick:function(e,data){
+							value: '0',hide:['0'], 
+							onSelect:function(e,data){
  							alert(data);
  						}
 						}
@@ -63,7 +63,7 @@ Simple and perfect HTML combox.
  						{key1:'value21',key2:'value22',key3:'value23'},
  						{key1:'value31',key2:'value32',key3:'value33'}
  					],
-						{text: 'key1',hide:['key2'],maxHeight:300,allowNew:false}
+						{value: 'key1',hide:['key2'],maxHeight:300,allowNew:false}
 		);
 
 
