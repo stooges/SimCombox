@@ -30,10 +30,10 @@
  *								{
  *									allowNew:true,				//输入框中是否允许输入不包含在列表中的数据
  *									maxHeight:180,				//输入框显示的最大高度，单位为px
- *									text:'key1',				//如果为多列数据，则指出输入框中需要的列，
+ *									value:'key1',				//如果为多列数据，则指出输入框中需要的列，
  * 																//	如果为空则将全部列值显示（逗号分隔,如"value1,value2,value3"）
  *									hide:['key2','key3']		//如果为多列数据，则指出需要被隐藏的列，默认为空数组
- *									onclick: function(e,data){	//列表选项被选中后的回调函数 onClickFun(e,data)，默认为空函数
+ *									onSelect: function(e,data){	//列表选项被选中后的回调函数 onSelectFun(e,data)，默认为空函数
  * 										//参数 e : 当前被点击的行对象，为表格的一行 <tr text='value1' dataId='data_id'> ...  </tr>
  * 										//参数 data : 被点击行所对应的输入参数dataArray中的数据，
  *  									//		如 'item1' 或 ['item11','item12','item13'] 或 
@@ -52,8 +52,8 @@
  *							['item31','item32','item33']
  *						],
  *						{
- * 							text: '0',hide:['0'], 
- * 							onclick:function(e,data){
+ * 							value: '0',hide:['0'],
+ * 							onSelect:function(e,data){
  *								alert(data);
  *							}
  * 						}
@@ -65,7 +65,7 @@
  *							{key1:'value21',key2:'value22',key3:'value23'},
  *							{key1:'value31',key2:'value32',key3:'value33'}
  *						],
- * 						{text: 'key1',hide:['key2'],maxHeight:300,allowNew:false}
+ * 						{value: 'key1',hide:['key2'],maxHeight:300,allowNew:false}
  * 		);
  * 
  */
@@ -90,7 +90,7 @@
 				hide:[],        //哪些列不显示
 				allowNew:false, //是否允许用户自主输入新值
 				maxHeight:185,  //下拉框最大高度
-				onclick:function(){}
+				onSelect:function(){}
 			};
 		if(options){
 			$.extend(this.settings,options);
@@ -202,11 +202,11 @@
 			if (this.$inputbox == null) {
 				return;
 			}
-			var onClickFun = this.settings["onclick"];
+			var onSelectFun = this.settings["onSelect"];
 			var data = this.data;
 			var dataId = this.$e.attr("dataId");
 			this.$inputbox.val(this.$e.attr('text'));
-			onClickFun(e, data[dataId]);
+			onSelectFun(e, data[dataId]);
 		},
 		
 		/**
@@ -216,14 +216,14 @@
 			if(this.$inputbox==null){
 				return;
 			}
-			var onClickFun=this.settings["onclick"];
+			var onSelectFun=this.settings["onSelect"];
 			
 			if(this.settings['allowNew']==false){//如果不允许自主输入值
 				var value=this.$inputbox.val();
 				if(this.$e!=null){//如果鼠标曾进入过下拉列表
 					this.$inputbox.val(this.$e.attr("text"));
 					var dataId=this.$e.attr("dataId");
-					onClickFun(this.$e,this.data[dataId]);				//运行点击事件----
+					onSelectFun(this.$e,this.data[dataId]);				//运行点击事件----
 					this.$inputbox.attr('placeholder',this.placeholder);	//恢复原placeholder
 				}else if(this.valueSet.indexOf(value)<0 && value!=null && value.length>0){
 					this.$inputbox.attr('placeholder','内容不存在，请重新选择'); //利用placeholder提示
@@ -233,7 +233,7 @@
 				if(this.$e!=null){//如果鼠标曾进入过下拉列表
 					this.$inputbox.val(this.$e.attr("text"));
 					var dataId=this.$e.attr("dataId");
-					onClickFun(this.$e,this.data[dataId]);				//运行点击事件----
+					onSelectFun(this.$e,this.data[dataId]);				//运行点击事件----
 					this.$inputbox.attr('placeholder',this.placeholder);	//恢复原placeholder
 				}
 			}
